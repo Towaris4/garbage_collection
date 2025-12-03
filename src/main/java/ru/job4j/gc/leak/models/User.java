@@ -2,18 +2,13 @@ package ru.job4j.gc.leak.models;
 
 import java.util.Objects;
 
-@SuppressWarnings("unused")
 public class User {
 
-    private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    private final String name;
+    public User(String name) {
         this.name = name;
     }
+
 
     @Override
     public boolean equals(Object o) {

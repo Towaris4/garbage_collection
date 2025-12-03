@@ -16,10 +16,10 @@ public class UserGenerator implements Generate {
     public static final String SEPARATOR = " ";
     public static final Integer NEW_USERS = 1000;
 
-    public static List<String> names;
-    public static List<String> surnames;
-    public static List<String> patrons;
-    private static final List<User> USERS = new ArrayList<>();
+    private List<String> names;
+    private List<String> surnames;
+    private List<String> patrons;
+    private final List<User> USERS = new ArrayList<>();
     private final Random random;
 
     public UserGenerator(Random random) {
@@ -31,12 +31,11 @@ public class UserGenerator implements Generate {
     public void generate() {
         USERS.clear();
         for (int i = 0; i < NEW_USERS; i++) {
-            var name = surnames.get(random.nextInt(surnames.size())) + SEPARATOR
-                    + names.get(random.nextInt(names.size())) + SEPARATOR
-                    + patrons.get(random.nextInt(patrons.size()));
-            var user = new User();
-            user.setName(name);
-            USERS.add(user);
+            USERS.add(new User(String.format("%s,%s,%s",
+                    surnames.get(random.nextInt(surnames.size())),
+                    names.get(random.nextInt(names.size())),
+                    patrons.get(random.nextInt(patrons.size())))
+            ));
         }
     }
 

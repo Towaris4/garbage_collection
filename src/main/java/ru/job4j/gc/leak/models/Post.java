@@ -3,7 +3,7 @@ package ru.job4j.gc.leak.models;
 import java.util.List;
 import java.util.Objects;
 
-@SuppressWarnings("unused")
+
 public class Post {
     private int id;
 
