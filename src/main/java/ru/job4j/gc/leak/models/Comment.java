@@ -3,13 +3,15 @@ package ru.job4j.gc.leak.models;
 import java.util.Objects;
 
 public class Comment {
-    public Comment (String text, User user) {
-        this.text = text;
-        this.user = user;
-    }
+
     private final String text;
 
     private final User user;
+
+    public Comment(String text, User user) {
+        this.text = text;
+        this.user = user;
+    }
 
     public String getText() {
         return text;

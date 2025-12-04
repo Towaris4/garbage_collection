@@ -19,7 +19,7 @@ public class UserGenerator implements Generate {
     private List<String> names;
     private List<String> surnames;
     private List<String> patrons;
-    private final List<User> USERS = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
     private final Random random;
 
     public UserGenerator(Random random) {
@@ -29,9 +29,9 @@ public class UserGenerator implements Generate {
 
     @Override
     public void generate() {
-        USERS.clear();
+        users.clear();
         for (int i = 0; i < NEW_USERS; i++) {
-            USERS.add(new User(String.format("%s,%s,%s",
+            users.add(new User(String.format("%s,%s,%s",
                     surnames.get(random.nextInt(surnames.size())),
                     names.get(random.nextInt(names.size())),
                     patrons.get(random.nextInt(patrons.size())))
@@ -50,6 +50,6 @@ public class UserGenerator implements Generate {
     }
 
     public User randomUser() {
-        return USERS.get(random.nextInt(USERS.size()));
+        return users.get(random.nextInt(users.size()));
     }
 }
