@@ -29,7 +29,7 @@ public class DirFileCache extends AbstractCache<String, String> {
                 content.append(line).append("\n");
             }
         } catch (IOException e) {
-            System.out.println("Ошибка чтения файла: {}" + path + e);
+            System.out.println("Ошибка чтения файла: " + path + e);
         }
         return content.toString();
     }
