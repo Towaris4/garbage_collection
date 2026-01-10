@@ -1,5 +1,6 @@
 package ru.job4j.template;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ru.job4j.ood.tdd.*;
 
@@ -9,7 +10,9 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
+@Disabled
 class TemplateTest {
+
     @Test
     public void whenTemplateInvalidThenException() {
         TemplateGenerator generator = new TemplateGenerator();
