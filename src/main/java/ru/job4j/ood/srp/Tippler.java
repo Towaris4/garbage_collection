@@ -8,5 +8,4 @@ class Tippler {
         _takeBiteOperation.Do();
         _grillMeat.Do();
     }
-
 }
