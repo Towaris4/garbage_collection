@@ -20,12 +20,12 @@ public class ReportHR implements Report {
     @Override
     public String generate(Predicate<Employee> filter) {
         StringBuilder text = new StringBuilder();
-        text.append("Name; Hired; Fired; Salary;")
+        text.append("Name; Salary;")
                 .append(System.lineSeparator());
         Comparator<Employee> comparator = new Comparator<Employee>() {
             @Override
             public int compare(Employee o1, Employee o2) {
-                return (int) (o1.getSalary() - o2.getSalary());
+                return (int) (o2.getSalary() - o1.getSalary());
             }
         };
         List<Employee> employees = store.findBy(filter);

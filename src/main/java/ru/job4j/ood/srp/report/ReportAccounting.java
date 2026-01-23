@@ -39,4 +39,5 @@ public class ReportAccounting implements Report {
         }
         return text.toString();
     }
+    
 }
