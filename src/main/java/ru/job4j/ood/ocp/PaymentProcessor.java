@@ -3,10 +3,9 @@ package ru.job4j.ood.ocp;
     public class PaymentProcessor {
         public void process(String method, double amount) {
             if ("creditCard".equals(method)) {
-                // обработка картой
+                System.out.println("Обработано картой");
             } else if ("paypal".equals(method)) {
-                // обработка через PayPal
+                System.out.println("Обработано paypal");
             }
-            // Нарушение OCP: при добавлении Apple Pay — правим код
         }
     }

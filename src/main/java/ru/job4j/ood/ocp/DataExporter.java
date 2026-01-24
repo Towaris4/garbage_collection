@@ -3,16 +3,10 @@ package ru.job4j.ood.ocp;
 public class DataExporter {
     public void export(String format, Data data) {
         if ("json".equals(format)) {
-            serializeToJson();
+            System.out.println("Сериализовано в JSON");
         } else if ("xml".equals(format)) {
-            serializeToXML();
+            System.out.println("Сериализовано в XML");
         }
-    }
-
-    public void serializeToJson() {
-    }
-
-    public void serializeToXML() {
     }
 
     class Data {
