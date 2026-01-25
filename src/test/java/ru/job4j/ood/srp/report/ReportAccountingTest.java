@@ -1,5 +1,6 @@
 package ru.job4j.ood.srp.report;
 
+import jakarta.xml.bind.JAXBException;
 import org.junit.jupiter.api.Test;
 import ru.job4j.ood.srp.currency.Currency;
 import ru.job4j.ood.srp.formatter.DateTimeParser;
@@ -8,6 +9,7 @@ import ru.job4j.ood.srp.model.Employee;
 import ru.job4j.ood.srp.store.MemoryStore;
 import ru.job4j.ood.srp.store.Store;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ReportAccountingTest {
 
     @Test
-    public void whenNewGenerated() {
+    public void whenNewGenerated() throws JAXBException, IOException {
         Store store = new MemoryStore();
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
