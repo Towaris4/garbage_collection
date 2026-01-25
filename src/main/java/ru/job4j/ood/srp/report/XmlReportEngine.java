@@ -29,14 +29,14 @@ public class XmlReportEngine implements Report {
     @Override
     public String generate(Predicate<Employee> filter) {
         Employees employees = new Employees(store.findBy(filter));
-        String xml = ""; // объявляем ДО try
+        String xml = "";
 
         try (StringWriter writer = new StringWriter()) {
             JAXBContext context = JAXBContext.newInstance(Employee.class, XmlReportEngine.Employees.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             marshaller.marshal(employees, writer);
-            xml = writer.toString(); // toString() достаточно, getBuffer() не обязателен
+            xml = writer.toString();
         } catch (JAXBException e) {
             throw new RuntimeException("Ошибка при маршалинге XML", e);
         } catch (IOException e) {
@@ -74,7 +74,6 @@ public class XmlReportEngine implements Report {
         private static final String PATTERN = "dd:MM:yyyy HH:mm";
         private static final SimpleDateFormat FORMATTER = new SimpleDateFormat(PATTERN);
 
-        // Убедимся, что SimpleDateFormat не зависит от локали и часового пояса при парсинге/форматировании
         static {
             FORMATTER.setLenient(false);
         }
