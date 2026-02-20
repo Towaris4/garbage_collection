@@ -5,13 +5,21 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TrashTest {
     private Trash trash;
     private Food expiredMilk;
+    private Calendar now = Calendar.getInstance();
+
+    private Food createFood(String name, double price, int percentUsed) {
+        Calendar createDate = (Calendar) now.clone();
+        createDate.add(Calendar.DAY_OF_MONTH, -percentUsed);
+        Calendar expiryDate = (Calendar) now.clone();
+        expiryDate.add(Calendar.DAY_OF_MONTH, 100 - percentUsed);
+        return new Food(name, expiryDate, createDate, price, 0.0);
+    }
 
     @BeforeEach
     void setUp() {
@@ -20,39 +28,33 @@ class TrashTest {
         Calendar createDate = (Calendar) now.clone();
         createDate.add(Calendar.DAY_OF_MONTH, -100);
         Calendar expiryDate = (Calendar) now.clone();
-        expiryDate.add(Calendar.DAY_OF_MONTH, -10); // Уже просрочен
+        expiryDate.add(Calendar.DAY_OF_MONTH, -10);
         expiredMilk = new Food("Expired Milk", expiryDate, createDate, 80.0, 0.0);
     }
 
     @Test
     void acceptAddsFoodToProducts() {
-        trash.accept(expiredMilk);
-        assertEquals(1, trash.getProducts().size());
-        assertTrue(trash.getProducts().contains(expiredMilk));
+        trash.accept(expiredMilk, now);
+        assertEquals(1, trash.getProductsList().size());
+        assertTrue(trash.getProductsList().contains(expiredMilk));
     }
 
     @Test
     void recycleClearsAllProducts() {
-        trash.accept(expiredMilk);
-        trash.accept(new Food("Another", Calendar.getInstance(), Calendar.getInstance(), 50.0, 0.0));
-        assertEquals(2, trash.getProducts().size());
-
+        trash.getProductsList().add(expiredMilk);
+        trash.getProductsList().add(new Food("Another", Calendar.getInstance(), Calendar.getInstance(), 50.0, 0.0));
+        assertEquals(2, trash.getProductsList().size());
         trash.recycle();
-        assertTrue(trash.getProducts().isEmpty());
+        assertTrue(trash.getProductsList().isEmpty());
     }
 
     @Test
     void moveTransfersFoodToAnotherStore() {
         Shop shop = new Shop();
-        trash.accept(expiredMilk);
+        trash.accept(expiredMilk, now);
         trash.move(expiredMilk, shop);
-
-        assertTrue(trash.getProducts().isEmpty());
-        assertEquals(1, shop.getProducts().size());
+        assertTrue(trash.getProductsList().isEmpty());
+        assertEquals(1, shop.getProductsList().size());
     }
 
-    @Test
-    void getTypeReturnsTrash() {
-        assertEquals("Trash", trash.getType());
-    }
 }

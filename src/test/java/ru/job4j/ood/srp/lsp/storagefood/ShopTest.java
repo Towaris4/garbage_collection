@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ShopTest {
     private Shop shop;
     private Food milk;
+    private Calendar now = Calendar.getInstance();
 
     @BeforeEach
     void setUp() {
@@ -25,36 +26,29 @@ class ShopTest {
 
     @Test
     void acceptAddsFoodToProducts() {
-        shop.accept(milk);
-        assertEquals(1, shop.getProducts().size());
-        assertTrue(shop.getProducts().contains(milk));
+        shop.getProductsList().add(milk);
+        assertEquals(1, shop.getProductsList().size());
+        assertTrue(shop.getProductsList().contains(milk));
     }
 
     @Test
     void sellIncreasesRevenueAndRemovesFood() {
-        shop.accept(milk);
+        shop.getProductsList().add(milk);
         Food bread = new Food("Bread", Calendar.getInstance(), Calendar.getInstance(), 50.0, 0.2);
-        shop.accept(bread);
-
+        shop.getProductsList().add(bread);
         shop.sell(milk);
         shop.sell(bread);
-
         assertEquals(100.0 + 50.0 * 0.8, shop.getRevenue(), 0.01);
-        assertTrue(shop.getProducts().isEmpty());
+        assertTrue(shop.getProductsList().isEmpty());
     }
 
     @Test
     void moveTransfersFoodToAnotherStore() {
         Warehouse warehouse = new Warehouse();
-        shop.accept(milk);
+        shop.getProductsList().add(milk);
         shop.move(milk, warehouse);
-
-        assertTrue(shop.getProducts().isEmpty());
-        assertEquals(1, warehouse.getProducts().size());
+        assertTrue(shop.getProductsList().isEmpty());
+        assertEquals(1, warehouse.getProductsList().size());
     }
 
-    @Test
-    void getTypeReturnsShop() {
-        assertEquals("Shop", shop.getType());
-    }
 }

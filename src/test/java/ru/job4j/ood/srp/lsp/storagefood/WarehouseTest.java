@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class WarehouseTest {
     private Warehouse warehouse;
     private Food longLifeMilk;
+    private Calendar now = Calendar.getInstance();
 
     @BeforeEach
     void setUp() {
@@ -26,23 +26,18 @@ class WarehouseTest {
 
     @Test
     void acceptAddsFoodToProducts() {
-        warehouse.accept(longLifeMilk);
-        assertEquals(1, warehouse.getProducts().size());
-        assertTrue(warehouse.getProducts().contains(longLifeMilk));
+        warehouse.accept(longLifeMilk, now);
+        assertEquals(1, warehouse.getProductsList().size());
+        assertTrue(warehouse.getProductsList().contains(longLifeMilk));
     }
 
     @Test
     void moveTransfersFoodToAnotherStore() {
         Shop shop = new Shop();
-        warehouse.accept(longLifeMilk);
+        warehouse.accept(longLifeMilk, now);
         warehouse.move(longLifeMilk, shop);
-
-        assertTrue(warehouse.getProducts().isEmpty());
-        assertEquals(1, shop.getProducts().size());
+        assertTrue(warehouse.getProductsList().isEmpty());
+        assertEquals(1, shop.getProductsList().size());
     }
 
-    @Test
-    void getTypeReturnsWarehouse() {
-        assertEquals("Warehouse", warehouse.getType());
-    }
 }

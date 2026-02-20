@@ -1,50 +1,36 @@
 package ru.job4j.ood.srp.lsp.storagefood;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 public class ControlQuality {
 
-    private Trash trash;
-    private Shop shop;
-    private Warehouse warehouse;
+    private final List<Store> stores;
+    private List<Food> sortableFood = new ArrayList<>();
 
-    public ControlQuality(Trash trash, Shop shop, Warehouse warehouse) {
-        this.trash = trash;
-        this.shop = shop;
-        this.warehouse = warehouse;
+    private Calendar currentDate;
+
+    public ControlQuality(List<Store> stores) {
+        this.stores = new ArrayList<>(stores);
     }
 
     public void checkQuality() {
-        Warehouse distrCentre = new Warehouse();
-        distrCentre.products.addAll(shop.products);
-        distrCentre.products.addAll(trash.products);
-        distrCentre.products.addAll(warehouse.products);
-        shop.products.clear();
-        trash.products.clear();
-        warehouse.products.clear();
         Calendar currentDate = Calendar.getInstance();
-        for (Food food : distrCentre.products) {
-            long expiryPercent = getExpiryPercent(food, currentDate);
-            if (currentDate.after(food.getExpiryDate())) {
-                trash.accept(food);
-            } else if (expiryPercent < 25.0) {
-                warehouse.accept(food);
-            } else if (expiryPercent <= 75.0) {
-                shop.accept(food);
-            } else {
-                food.setDiscount(0.2);
-                shop.accept(food);
+        for (Store store : stores) {
+            sortableFood.addAll(store.getProductsList());
+            store.getProductsList().clear();
+        }
+        Iterator<Food> it = sortableFood.iterator();
+        while (it.hasNext()) {
+            Food product = it.next();
+            for (Store store : stores) {
+                if (store.accept(product, currentDate)) {
+                    it.remove();
+                    break;
+                }
             }
         }
-    }
-
-    public long getExpiryPercent(Food food, Calendar currentDate) {
-        long timeSinceCreation = currentDate.getTimeInMillis() - food.getCreateDate().getTimeInMillis();
-        long totalLifetime = food.getExpiryDate().getTimeInMillis() - food.getCreateDate().getTimeInMillis();
-        return (timeSinceCreation * 100) / totalLifetime;
     }
 }

@@ -1,5 +1,7 @@
 package ru.job4j.ood.srp.lsp.storagefood;
 
+import java.util.Calendar;
+
 public class Shop extends AbstractStore {
 
     public double getRevenue() {
@@ -9,8 +11,19 @@ public class Shop extends AbstractStore {
     double revenue;
 
     @Override
-    public String getType() {
-        return "Shop";
+    public boolean accept(Food food, Calendar currentDate) {
+        boolean add = false;
+        double expiryPercent = ExpiryPercent.getExpiryPercent(food, currentDate);
+        if ((expiryPercent > 25) && (expiryPercent <= 75)) {
+            products.add(food);
+            add = true;
+        }
+        if ((expiryPercent > 75) && (expiryPercent <= 100)) {
+            food.setDiscount(20);
+            products.add(food);
+            add = true;
+        }
+        return add;
     }
 
     void sell(Food food) {
