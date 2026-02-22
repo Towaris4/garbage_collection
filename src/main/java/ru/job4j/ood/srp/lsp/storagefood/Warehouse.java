@@ -8,7 +8,7 @@ public class Warehouse extends AbstractStore {
     public boolean accept(Food food, Calendar currentDate) {
         boolean add = false;
         double expiryPercent = ExpiryPercent.getExpiryPercent(food, currentDate);
-        if ((expiryPercent >= 0) && (expiryPercent <= 25)) {
+        if ((expiryPercent >= FRESHNESS_START) && (expiryPercent <= LOW_EXPIRATION_THRESHOLD)) {
             products.add(food);
             add = true;
         }

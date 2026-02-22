@@ -14,12 +14,12 @@ public class Shop extends AbstractStore {
     public boolean accept(Food food, Calendar currentDate) {
         boolean add = false;
         double expiryPercent = ExpiryPercent.getExpiryPercent(food, currentDate);
-        if ((expiryPercent > 25) && (expiryPercent <= 75)) {
+        if ((expiryPercent > LOW_EXPIRATION_THRESHOLD) && (expiryPercent <= MEDIUM_EXPIRATION_THRESHOLD)) {
             products.add(food);
             add = true;
         }
-        if ((expiryPercent > 75) && (expiryPercent <= 100)) {
-            food.setDiscount(20);
+        if ((expiryPercent > MEDIUM_EXPIRATION_THRESHOLD) && (expiryPercent <= EXPIRATION_LIMIT)) {
+            food.setDiscount(DISCOUNT_PERCENT);
             products.add(food);
             add = true;
         }

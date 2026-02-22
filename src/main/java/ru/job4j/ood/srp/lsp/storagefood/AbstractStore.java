@@ -5,6 +5,12 @@ import java.util.List;
 
 public abstract class AbstractStore implements Store {
 
+    protected static final double FRESHNESS_START = 0;
+    protected static final double LOW_EXPIRATION_THRESHOLD = 25;
+    protected static final double MEDIUM_EXPIRATION_THRESHOLD = 75;
+    protected static final double EXPIRATION_LIMIT = 100;
+    protected static final double DISCOUNT_PERCENT = 20;
+
     public List<Food> getProductsList() {
         return products;
     }
