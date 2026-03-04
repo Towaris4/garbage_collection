@@ -1,20 +1,14 @@
 package ru.job4j.ood.srp.report;
 import com.google.gson.*;
 
-import ru.job4j.ood.srp.formatter.DateTimeParser;
 import ru.job4j.ood.srp.model.Employee;
 import ru.job4j.ood.srp.store.Store;
 
 import java.lang.reflect.Type;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Predicate;
-import com.google.gson.*;
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 
 public class JsonReportEngine implements Report {
 
