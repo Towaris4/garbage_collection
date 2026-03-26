@@ -1,6 +1,6 @@
 package ru.job4j.ood.srp.lsp.ispviolation;
 
-public class SimplePrinter {
+public class SimplePrinter implements MultiFunctionDevice {
     public void print() {
     }
 
