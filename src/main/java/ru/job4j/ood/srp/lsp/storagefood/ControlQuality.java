@@ -16,20 +16,24 @@ public class ControlQuality {
         this.stores = new ArrayList<>(stores);
     }
 
-    public void checkQuality() {
-        Calendar currentDate = Calendar.getInstance();
+    public void resort() {
+        this.currentDate = Calendar.getInstance();
         for (Store store : stores) {
             sortableFood.addAll(store.getProductsList());
             store.getProductsList().clear();
         }
-        Iterator<Food> it = sortableFood.iterator();
-        while (it.hasNext()) {
-            Food product = it.next();
-            for (Store store : stores) {
-                if (store.accept(product, currentDate)) {
-                    it.remove();
-                    break;
-                }
+        for (Food food : sortableFood) {
+            sort(food);
+        }
+    }
+
+    public void sort(Food food) {
+        this.currentDate = Calendar.getInstance();
+        sortableFood.add(food);
+        for (Store store : stores) {
+            if (store.accept(food, currentDate)) {
+                sortableFood.remove(food);
+                break;
             }
         }
     }

@@ -38,8 +38,7 @@ class ControlQualityTest {
         Calendar expiryDate = (Calendar) now.clone();
         expiryDate.add(Calendar.DAY_OF_MONTH, -10);
         Food expired = new Food("Expired", expiryDate, createDate, 100.0, 0.0);
-        warehouse.getProductsList().add(expired);
-        control.checkQuality();
+        control.sort(expired);
         assertTrue(trash.getProductsList().contains(expired));
         assertFalse(shop.getProductsList().contains(expired));
         assertFalse(warehouse.getProductsList().contains(expired));
@@ -48,8 +47,7 @@ class ControlQualityTest {
     @Test
     void foodWithLessThan25PercentUsedGoesToWarehouse() {
         Food veryFresh = createFood("Very Fresh", 100.0, 10);
-        shop.getProductsList().add(veryFresh);
-        control.checkQuality();
+        control.sort(veryFresh);
         assertTrue(warehouse.getProductsList().contains(veryFresh));
         assertFalse(shop.getProductsList().contains(veryFresh));
         assertEquals(0.0, veryFresh.getDiscount(), 0.01);
@@ -58,8 +56,7 @@ class ControlQualityTest {
     @Test
     void foodWith25To75PercentUsedGoesToShopWithoutDiscount() {
         Food medium = createFood("Medium", 100.0, 50);
-        warehouse.getProductsList().add(medium);
-        control.checkQuality();
+        control.sort(medium);
         assertTrue(shop.getProductsList().contains(medium));
         assertFalse(warehouse.getProductsList().contains(medium));
         assertEquals(0.0, medium.getDiscount(), 0.01);
@@ -68,8 +65,7 @@ class ControlQualityTest {
     @Test
     void foodWithMoreThan75PercentUsedGoesToShopWithDiscount() {
         Food old = createFood("Old", 100.0, 80);
-        warehouse.getProductsList().add(old);
-        control.checkQuality();
+        control.sort(old);
         assertTrue(shop.getProductsList().contains(old));
         assertEquals(20, old.getDiscount(), 0.01);
     }
@@ -91,11 +87,10 @@ class ControlQualityTest {
         Food veryFresh = createFood("Very Fresh", 80.0, 10);
         Food medium = createFood("Medium", 90.0, 50);
         Food old = createFood("Old", 70.0, 85);
-        shop.getProductsList().add(expired);
-        shop.getProductsList().add(veryFresh);
-        shop.getProductsList().add(medium);
-        shop.accept(old, now);
-        control.checkQuality();
+        control.sort(expired);
+        control.sort(veryFresh);
+        control.sort(medium);
+        control.sort(old);
         assertEquals(1, trash.getProductsList().size());
         assertTrue(trash.getProductsList().contains(expired));
         assertEquals(1, warehouse.getProductsList().size());
@@ -108,8 +103,8 @@ class ControlQualityTest {
     }
 
     @Test
-    void checkQualityHandlesEmptyStores() {
-        assertDoesNotThrow(() -> control.checkQuality());
+    void resortIsEmptyStores() {
+        assertDoesNotThrow(() -> control.resort());
         assertTrue(trash.getProductsList().isEmpty());
         assertTrue(shop.getProductsList().isEmpty());
         assertTrue(warehouse.getProductsList().isEmpty());
